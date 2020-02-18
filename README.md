@@ -2,19 +2,15 @@
 
 ## Note to users
 
-> As the popularity of this module has grown (modestly) I've realized that all
-> OAuth implementations doesn't look the same. I was naive in thinking that there
-> was some form of standardized simple way of doing this.
+> This is a fork of Adam Bergman's `react-oauth-flow`. It had not been updated in
+> a while and I needed to make changes. If the original package becomes actively
+> maintained again, that is worth taking a look at.
+>
+> Specifically, this fork:
+>   - Removes client secrets (they are not secure when used in the browser)
+>   - Makes token requests to the OAuth2 server compatible with Keycloak/Red Hat SSO
 > 
-> So just a heads up – during the winter and spring I will take another look at
-> this and hopefully come up with a library that has some sensible defaults
-> together with the ability to customize it to your needs.
-> 
-> As of now I recommend anyone who wants some customization to run your own fork.
-> And if you have any ideas fow how to rewrite the api of this module – please
-> reach out!
-> 
-> – Adam Bergman
+> – Jacob See
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -44,19 +40,8 @@ authorization process once the user is back on your site.
 ## Installation
 
 ```sh
-npm install react-oauth-flow
-yarn add react-oauth-flow
-```
-
-There is also a umd-build available for usage directly inside a browser, via
-`https://unkpg.com/react-oauth-flow/dist/react-oauth-flow.umd.min.js`.
-
-```html
-<script src="https://unkpg.com/react-oauth-flow/dist/react-oauth-flow.umd.min.js"></script>
-<script>
-  // The umd-build exports a global variable ReactOauthFlow
-  const { createOauthFlow, OauthSender, OauthReceiver } = ReactOauthFlow;
-</script>
+npm install @jacobsee/react-oauth-flow --save
+yarn add @jacobsee/react-oauth-flow
 ```
 
 ## Requirements
@@ -109,7 +94,7 @@ service.
 | Prop           | Type     | Required | Default | Description                                                                                                         |
 | :------------- | :------- | :------- | :------ | :------------------------------------------------------------------------------------------------------------------ |
 | `authorizeUrl` | `string` | yes      | -       | The full url to the authorize endpoint, provided by the service                                                     |
-| `clientId`     | `string` | yes      | -       | Your client id from the service provider (remember to keep it secret!)                                              |
+| `clientId`     | `string` | yes      | -       | Your client id from the service provider                                              |
 | `redirectUri`  | `string` | yes      | -       | The URL where the provider should redirect your users back                                                          |
 | `state`        | `object` | no       | -       | Additional state to get back from the service provider [(read more below)](#state)                                  |
 | `args`         | `object` | no       | -       | Additional args to send to service provider, e.g. `scope`. Will be serialized by [qs](https://github.com/ljharb/qs) |
@@ -162,7 +147,6 @@ export default class ReceiveFromDropbox extends Component {
       <OauthReceiver
         tokenUrl="https://api.dropbox.com/oauth2/token"
         clientId={process.env.CLIENT_ID}
-        clientSecret={process.env.CLIENT_SECRET}
         redirectUri="https://www.yourapp.com/auth/dropbox"
         onAuthSuccess={this.handleSuccess}
         onAuthError={this.handleError}
@@ -188,8 +172,7 @@ redirected from the OAuth2-provider.
 | Prop             | Type                 | Required | Default | Description                                                                             |
 | :--------------- | :------------------- | :------- | :------ | :-------------------------------------------------------------------------------------- |
 | `tokenUrl`       | `string`             | yes      | -       | The full url to the token endpoint, provided by the service                             |
-| `clientId`       | `string`             | yes      | -       | Your client id from the service provider (remember to keep it secret!)                  |
-| `clientSecret`   | `string`             | yes      | -       | Your client secret from the service provider (remember to keep it secret!)              |
+| `clientId`       | `string`             | yes      | -       | Your client id from the service provider                                                |
 | `redirectUri`    | `string`             | yes      | -       | The URL where the provider has redirected your user (used to verify auth)               |
 | `args`           | `object`             | no       | -       | Args will be attatched to the request to the token endpoint. Will be serialized by `qz` |
 | `location`       | `{ search: string }` | no       | -       | Used to extract info from querystring [(read more below)](#location-and-querystring)    |
@@ -315,7 +298,6 @@ const { Sender, Receiver } = createOauthFlow({
   authorizeUrl: 'https://www.dropbox.com/oauth2/authorize',
   tokenUrl: 'https://api.dropbox.com/oauth2/token',
   clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
   redirectUri: 'https://www.yourapp.com/auth/dropbox',
 });
 
@@ -335,8 +317,7 @@ overridden when you use the created components.
 | `options`              | `object` | yes      | -       | Options object                                                             |
 | `options.authorizeUrl` | `string` | yes      | -       | The full url to the authorize endpoint, provided by the service            |
 | `options.tokenUrl`     | `string` | yes      | -       | The full url to the token endpoint, provided by the service                |
-| `options.clientId`     | `string` | yes      | -       | Your client id from the service provider (remember to keep it secret!)     |
-| `options.clientSecret` | `string` | yes      | -       | Your client secret from the service provider (remember to keep it secret!) |
+| `options.clientId`     | `string` | yes      | -       | Your client id from the service provider                                   |
 | `options.redirectUri`  | `string` | yes      | -       | The URL where the provider should redirect your users back                 |
 
 ## License

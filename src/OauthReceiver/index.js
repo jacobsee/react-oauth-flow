@@ -2,7 +2,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import qs from 'qs';
-import { buildURL, fetch2 } from '../utils';
+import { fetch2 } from '../utils';
 
 class OauthReceiver extends React.Component {
   constructor(props) {
@@ -29,7 +29,6 @@ class OauthReceiver extends React.Component {
         tokenUrl,
         tokenFetchArgs,
         clientId,
-        clientSecret,
         redirectUri,
         args,
         tokenFn,
@@ -48,23 +47,27 @@ class OauthReceiver extends React.Component {
         throw err;
       }
 
-      const url = buildURL(`${tokenUrl}`, {
-        code,
-        grant_type: 'authorization_code',
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
-        ...args,
+      const headers = new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded',
       });
-
-      const headers = new Headers({ 'Content-Type': 'application/json' });
-      const defaultFetchArgs = { method: 'POST', headers };
+      const defaultFetchArgs = {
+        method: 'POST',
+        body: qs.stringify({
+          code,
+          grant_type: 'authorization_code',
+          client_id: clientId,
+          redirect_uri: redirectUri,
+          ...args,
+        }),
+        headers,
+      };
       const fetchArgs = Object.assign(defaultFetchArgs, tokenFetchArgs);
 
-      (typeof tokenFn === 'function' ?
-        tokenFn(url, fetchArgs) :
-        fetch2(url, fetchArgs)
-      ).then(response => {
+      (typeof tokenFn === 'function'
+        ? tokenFn(tokenUrl, fetchArgs)
+        : fetch2(tokenUrl, fetchArgs)
+      )
+        .then(response => {
           const accessToken = response.access_token;
 
           if (typeof onAuthSuccess === 'function') {
@@ -131,7 +134,6 @@ class OauthReceiver extends React.Component {
 OauthReceiver.propTypes = {
   tokenUrl: PropTypes.string.isRequired,
   clientId: PropTypes.string.isRequired,
-  clientSecret: PropTypes.string.isRequired,
   redirectUri: PropTypes.string.isRequired,
   args: PropTypes.objectOf(
     PropTypes.oneOfType([

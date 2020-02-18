@@ -1,8 +1,8 @@
 {
   "name": "@jacobsee/react-oauth-flow",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "repository": "git@github.com:jacobsee/react-oauth-flow.git",
-  "author": "Adam Bergman <adam@fransvilhelm.com>",
+  "author": "Jacob See <jacob.d.see@gmail.com>",
   "license": "MIT",
   "main": "dist/react-oauth-flow.js",
   "umd:main": "dist/react-oauth-flow.umd.js",

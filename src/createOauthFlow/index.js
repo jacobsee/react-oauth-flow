@@ -2,9 +2,14 @@ import * as React from 'react';
 import { OauthReceiver } from '../OauthReceiver';
 import { OauthSender } from '../OauthSender';
 
-export function createOauthFlow(
-  { authorizeUrl, tokenUrl, clientId, clientSecret, redirectUri, appName } = {},
-) {
+export function createOauthFlow({
+  authorizeUrl,
+  tokenUrl,
+  clientId,
+  clientSecret,
+  redirectUri,
+  appName,
+} = {}) {
   const Sender = props => (
     <OauthSender
       authorizeUrl={authorizeUrl}

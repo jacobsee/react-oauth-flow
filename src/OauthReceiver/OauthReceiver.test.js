@@ -18,7 +18,6 @@ describe('Component <OauthReceiver />', () => {
     const props = {
       tokenUrl: 'https://api.service.com/oauth2/token',
       clientId: 'abc',
-      clientSecret: 'abcdef',
       redirectUri: 'https://www.test.com/redirect',
       querystring: `?${qs.stringify({
         code: 'abc',
@@ -58,7 +57,6 @@ describe('Component <OauthReceiver />', () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       },
       clientId: 'abc',
-      clientSecret: 'abcdef',
       redirectUri: 'https://www.test.com/redirect',
       querystring: `?${qs.stringify({
         code: 'abc',
@@ -98,7 +96,6 @@ describe('Component <OauthReceiver />', () => {
       tokenUrl: 'https://api.service.com/oauth2/token',
       tokenFn: fetch2,
       clientId: 'abc',
-      clientSecret: 'abcdef',
       redirectUri: 'https://www.test.com/redirect',
       querystring: `?${qs.stringify({
         code: 'abc',
@@ -139,7 +136,6 @@ describe('Component <OauthReceiver />', () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       },
       clientId: 'abc',
-      clientSecret: 'abcdef',
       redirectUri: 'https://www.test.com/redirect',
       querystring: `?${qs.stringify({
         code: 'abc',
