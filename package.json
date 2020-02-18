@@ -1,7 +1,7 @@
 {
-  "name": "react-oauth-flow",
-  "version": "0.0.0-development",
-  "repository": "git@github.com:adambrgmn/react-oauth-flow.git",
+  "name": "@jacobsee/react-oauth-flow",
+  "version": "0.0.3",
+  "repository": "git@github.com:jacobsee/react-oauth-flow.git",
   "author": "Adam Bergman <adam@fransvilhelm.com>",
   "license": "MIT",
   "main": "dist/react-oauth-flow.js",
@@ -11,9 +11,10 @@
   "scripts": {
     "build": "microbundle",
     "test": "jest",
-    "lint": "eslint",
-    "format": "prettier",
-    "contributors": "all-contributors"
+    "lint": "eslint src/",
+    "format": "prettier --write \"src/**/*.js\"",
+    "contributors": "all-contributors",
+    "doctoc": "doctoc"
   },
   "devDependencies": {
     "all-contributors-cli": "^5.4.0",
@@ -36,7 +37,7 @@
     "jest-dom": "^1.12.0",
     "lint-staged": "^7.2.2",
     "microbundle": "^0.6.0",
-    "prettier": "^1.14.2",
+    "prettier": "^1.19.1",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
